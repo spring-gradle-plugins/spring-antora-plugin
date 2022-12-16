@@ -1,0 +1,25 @@
+name: Push Branch
+
+on:
+  push: tags
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: ./.github/workflows/check.yml
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Gradle
+        uses: spring-io/spring-gradle-build-action@v1
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Push to the Gradle Plugin Portal
+        env:
+          GRADLE_PUBLISH_KEY=${{ secrets.GRADLE_PUBLISH_KEY_CREDENTIAL }}
+          GRADLE_PUBLISH_SECRET=${{ secrets.GRADLE_PUBLISH_SECRET_CREDENTIAL }}
+        run: ./gradlew publishPlugins -Pgradle.publish.key="$GRADLE_PUBLISH_KEY" -Pgradle.publish.secret="$GRADLE_PUBLISH_SECRET"
