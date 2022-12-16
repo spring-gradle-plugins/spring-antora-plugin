@@ -1,3 +1,6 @@
+
+image:https://github.com/spring-gradle-plugins/spring-antora-plugin/actions/workflows/push.yml/badge.svg["Build Status", link="https://github.com/spring-gradle-plugins/spring-antora-plugin/actions/workflows/push.yml"]
+
 = Spring Antora Plugins for Gradle
 :version: 0.0.1-SNAPSHOT
 
