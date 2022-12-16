@@ -1,0 +1,51 @@
+plugins {
+	id 'java-gradle-plugin'
+	id 'com.gradle.plugin-publish' version '1.1.0'
+}
+
+group 'io.spring.gradle.antora'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(8)
+	}
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	implementation 'org.yaml:snakeyaml:1.33'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+gradlePlugin {
+	website = 'https://github.com/spring-gradle-plugins/spring-antora-plugin'
+	vcsUrl = website
+	plugins {
+		generateAntoraYml {
+			id = 'io.spring.antora.generate-antora-yml'
+			implementationClass = 'io.spring.gradle.antora.GenerateAntoraYmlPlugin'
+			displayName = 'Spring antora.yml generator plugin'
+			description = 'Adds task for generating an antora.yml with information from the Gradle build'
+			tags.set(['antora', 'asciidoctor', 'asciidoc', 'documentation'])
+		}
+	}
+}
+
+tasks.named("compileTestJava").configure {
+	javaCompiler = javaToolchains.compilerFor {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+tasks.withType(Test).configureEach {
+	javaLauncher = javaToolchains.launcherFor {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+    useJUnitPlatform()
+}

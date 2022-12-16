@@ -1,0 +1,11 @@
+name: Push
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: ./.github/workflows/check.yml
