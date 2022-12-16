@@ -1,7 +1,8 @@
 name: Push Branch
 
 on:
-  push: tags
+  push:
+    tags: '*'
 
 permissions:
   contents: read
